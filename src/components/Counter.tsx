@@ -35,8 +35,8 @@ function Counter({ startingCount = 0 }: Props) {
    */
   useEffect(() => {
     // This is probably the best example of when to definitely use a callback
-    // in a state setter. We want to append to the previous state, but if
-    // we just did setCountHistory([...countHistory, count]), we would be prompted
+    // in a state setter. We want to prepend a new value to the previous state, but if
+    // we just did setCountHistory([count, ...countHistory]), we would be prompted
     // to add countHistory to the dependencies array. This would cause an infinite
     // loop because arrays if we add to countHistory, it would change, this
     // hook would run again, and we would add to countHistory again, etc.
@@ -82,7 +82,7 @@ function Counter({ startingCount = 0 }: Props) {
       </div>
 
       <div>
-        <h2 className='text-center text-gray-950 font-semibold rounded pt-6 px-4 text-white'>
+        <h2 className='text-center font-semibold rounded pt-6 px-4 text-white'>
           Count History
         </h2>
 
