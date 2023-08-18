@@ -25,7 +25,12 @@ function Counter({ startingCount = 0 }: Props) {
     setCount(newValue);
   };
 
-  const updateCount = (countChange: 1 | -1) => {
+  /**
+   * Updates the count by the given amount.
+   *
+   * @param countChange The amount to change the count by.
+   */
+  const updateCount = (countChange: number) => {
     setCount(count + countChange);
   };
 
@@ -63,8 +68,9 @@ function Counter({ startingCount = 0 }: Props) {
       </h1>
 
       <div className='flex space-x-5'>
+        <Button onClick={() => updateCount(-3)}>Decrease ---</Button>
+        <Button onClick={() => updateCount(-1)}>Decrease -</Button>
         <Button
-          name='inc'
           // Sometimes it is useful to use an anonymous function with event
           // handler type props. This lets you pass in arguments to the function.
           // It's particularly useful when you're passing handlers to child
@@ -76,9 +82,7 @@ function Counter({ startingCount = 0 }: Props) {
         >
           Increase +
         </Button>
-        <Button name='dec' onClick={onButtonClick}>
-          Decrease -
-        </Button>
+        <Button onClick={() => updateCount(3)}>Increase +++</Button>
       </div>
 
       <div>
@@ -86,7 +90,7 @@ function Counter({ startingCount = 0 }: Props) {
           Count History
         </h2>
 
-        <ul className='flex flex-wrap gap-2 items-center justify-center py-4 max-w-xs h-48 overflow-y-scroll'>
+        <ul className='flex flex-wrap gap-2 items-start justify-center py-4 max-w-xs h-48 overflow-y-scroll'>
           {countHistory.map((count) => (
             <li key={count}>{count}</li>
           ))}
