@@ -9,7 +9,7 @@ type Props = {
 };
 
 /**
- *
+ * Goes up, goes down, keeps track of history.
  */
 function Counter({ startingCount = 0 }: Props) {
   const [count, setCount] = useState(startingCount);
