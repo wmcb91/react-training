@@ -1,3 +1,4 @@
+import { useContentOverflow } from '@/hooks/useContentOverflow';
 import { useRef } from 'react';
 
 type Props = {
@@ -8,15 +9,10 @@ type Props = {
  * Displays a list of numbers. Changes colors when the list starts to overflow.
  */
 const CountHistory = ({ countHistory }: Props) => {
-  const countHistoryRef = useRef<HTMLUListElement>(null);
+  const [isOverflowing, countHistoryRef] =
+    useContentOverflow<HTMLUListElement>(countHistory);
 
-  const countHistoryHeight =
-    countHistoryRef.current?.getBoundingClientRect().height || 0;
-
-  // @TODO: 144 is currently a magic number. It equates to max-h-36, but we
-  // would be better off giving it a good variable name.
-  const countHistoryBgColor =
-    countHistoryHeight >= 144 ? 'rgb(254, 202, 202)' : '#fff';
+  const countHistoryBgColor = isOverflowing ? 'rgb(254, 202, 202)' : '#fff';
 
   return (
     <div>
