@@ -6,11 +6,9 @@ const Home = () => {
   const [users, setUsers] = useState<User[]>([]);
 
   return (
-    <div className='flex flex-wrap gap-6 py-8 items-center justify-center h-screen w-full'>
+    <div className='flex flex-wrap gap-6 py-8 items-start justify-center h-screen w-full'>
       <div className='bg-gray-400 text-gray-900 rounded-lg border p-4'>
-        <div className='flex flex-col items-center'>
-          <Counter startingCount={5285} />
-        </div>
+        <Counter startingCount={5285} />
       </div>
       <div className='bg-gray-400 text-gray-900 rounded-lg border p-4'>
         <UserForm setUsers={setUsers} />

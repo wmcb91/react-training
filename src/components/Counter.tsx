@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import Button from './Button';
+import CountHistory from './CountHistory';
 
 type Props = {
   /**
@@ -14,6 +15,7 @@ type Props = {
 function Counter({ startingCount = 0 }: Props) {
   const [count, setCount] = useState(startingCount);
   const [countHistory, setCountHistory] = useState<number[]>([startingCount]);
+  const [allowChangeByOne, setAllowChangeByOne] = useState(true);
 
   /**
    * This was an example of how e.currentTarget works, but probably isn't
@@ -58,45 +60,56 @@ function Counter({ startingCount = 0 }: Props) {
   // }, [count, countHistory]);
 
   return (
-    // This is a React fragment in short hand syntax. Same as <React.Fragment>.
-    // It lets us return multiple elements without having to wrap them in a
-    // div or other element.
-    // It's not a good place to use a fragment, but it's just an example.
-    <>
-      <h1 className='max-w-fit mb-3 text-center text-gray-950 font-semibold rounded py-2 px-4 bg-white'>
-        Count: {count}
-      </h1>
+    <div className='flex flex-col items-center w-[570px]'>
+      <div className='relative w-full flex justify-center'>
+        <h1 className='max-w-fit mb-3 text-center text-gray-950 font-semibold rounded py-2 px-4 bg-white'>
+          Count: {count}
+        </h1>
+
+        <div className='flex flex-col items-center absolute top-1 left-1'>
+          <label>
+            <input
+              className='mr-1'
+              type='checkbox'
+              checked={allowChangeByOne}
+              onChange={(event) => setAllowChangeByOne(event.target.checked)}
+            />
+            Allow +/- 1
+          </label>
+        </div>
+      </div>
 
       <div className='flex space-x-5'>
         <Button onClick={() => updateCount(-3)}>Decrease ---</Button>
-        <Button onClick={() => updateCount(-1)}>Decrease -</Button>
-        <Button
-          // Sometimes it is useful to use an anonymous function with event
-          // handler type props. This lets you pass in arguments to the function.
-          // It's particularly useful when you're passing handlers to child
-          // components that are rendered in a loop.
-          onClick={() => updateCount(1)}
 
-          // This was how we were using onButtonClick
-          // onClick={onButtonClick}
-        >
-          Increase +
-        </Button>
+        {allowChangeByOne && (
+          // This is a React fragment short hand. It is the same as <React.Fragment>.
+          // It lets us return multiple elements without having to wrap them in a
+          // div or other element. It's particularly useful in this case because
+          // the parent is using flex and providing the spacing between the buttons.
+          <>
+            <Button onClick={() => updateCount(-1)}>Decrease -</Button>
+            <Button
+              // Sometimes it is useful to use an anonymous function with event
+              // handler type props. This lets you pass in arguments to the function.
+              // It's particularly useful when you're passing handlers to child
+              // components that are rendered in a loop.
+              onClick={() => updateCount(1)}
+
+              // This was how we were using onButtonClick.
+              // onClick={onButtonClick}
+              // name='inc'
+            >
+              Increase +
+            </Button>
+          </>
+        )}
+
         <Button onClick={() => updateCount(3)}>Increase +++</Button>
       </div>
 
-      <div>
-        <h2 className='text-center font-semibold rounded pt-6 px-4 text-white'>
-          Count History
-        </h2>
-
-        <ul className='flex flex-wrap gap-2 items-start justify-center py-4 max-w-xs h-48 overflow-y-scroll'>
-          {countHistory.map((count) => (
-            <li key={count}>{count}</li>
-          ))}
-        </ul>
-      </div>
-    </>
+      <CountHistory countHistory={countHistory} />
+    </div>
   );
 }
 
